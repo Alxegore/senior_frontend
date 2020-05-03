@@ -1,0 +1,85 @@
+@import '~antd/dist/antd.css';
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.header {
+  font-size: 36px;
+  margin: 24px 16px;
+}
+
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
+
+.ant-upload.ant-upload-select-picture-card {
+  float: none;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.selectModel {
+  margin-bottom: 16px;
+}
+
+.inputForm {
+  border-color: #77baf8;
+    border-width: 5px;
+    border-style: solid;
+    border-radius: 50px;
+    width: 75%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.ant-btn-primary {
+  width: 160px;
+  height: 60px;
+  font-size: 24px;
+  margin-top: 36px;
+  margin-bottom: 35px;
+}
+
+.result {
+  border-color: #77baf8;
+    border-width: 5px;
+    border-style: solid;
+    border-radius: 50px;
+    width: 75%;
+    margin: auto;
+    margin-top: 20px;
+    padding: 30px;
+
+    font-size: 20px;
+}
+
+
+.ant-table thead > tr > th {
+ background-color: #89e3fc;
+}
+
+.ant-table tbody > tr > td {
+  font-size: 20px;
+}
