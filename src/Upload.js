@@ -22,11 +22,19 @@ function beforeUpload(file) {
   return isJpgOrPng && isLt2M;
 }
 
+
 class Avatar extends React.Component {
   state = {
     loading: false,
     selectModel: 'effb2',
+    models: []
   };
+
+  async componentDidMount(){
+    let response = await fetch('https://thai-food-api.herokuapp.com/models')
+    let data = await response.json()
+    this.setState({models: data})
+  }
 
   handleChange = info => {
     if (info.file.status === 'uploading') {
@@ -44,8 +52,30 @@ class Avatar extends React.Component {
     }
   };
 
-  handleChange2 = (value) => {
+  handleChange2 = value => {
     this.setState({selectModel: value})
+  }
+
+  predict = async (model, image, setPredictResult) => {
+    if(!model in this.state.models){
+      message.error('Invalid model');
+      return
+    }
+    if(!image){
+      message.error('Please upload image!');
+      return
+    }
+
+    const reqOption = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 'modelName': model, 'image': image })
+    }
+    
+    let response = await fetch('https://thai-food-api.herokuapp.com/predict', reqOption)
+    let data = await response.json()
+    setPredictResult(data.predict)
+    
   }
 
   render() {
@@ -70,12 +100,15 @@ class Avatar extends React.Component {
           {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
         </Upload>
         <div>
-          <Select className="selectModel" defaultValue="effb2" style={{ width: 120 }} onChange={this.handleChange2}>
-            <Option value="effb2">effb2</Option>
-            <Option value="resnet18">resnet18</Option>
+          <Select className="selectModel" defaultValue="effb2" style={{ width: 220 }} onChange={this.handleChange2}>
+            {
+              this.state.models.map((value, index)=>{
+                return <Option key={index} value={value}>{value}</Option>
+              })
+            }
           </Select>
         </div>
-        <Button type="primary" shape="round" onClick = {() => { console.log (this.state.selectModel, this.state.imageUrl)}}> Predict </Button>
+        <Button type="primary" shape="round" onClick = {() => {this.predict(this.state.selectModel, this.state.imageUrl, this.props.setPredictResult)}}> Predict </Button>
       </React.Fragment>
     );
   }

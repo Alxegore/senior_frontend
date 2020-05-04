@@ -3,26 +3,21 @@ import { Table } from 'antd';
 
 class Result extends React.Component {
 
-  dataSource = [
-    {
-      key: '1',
-      rank: '1',
-      menu: 'ส้มตำ',
-      probability: '32%',
-    },
-    {
-      key: '2',
-      rank: '2',
-      menu: 'ปลากะพง',
-      probability: '22%',
-    },
-    {
-      key: '3',
-      rank: '3',
-      menu: 'ผัดกะเพรา',
-      probability: '0.02%',
-    },
-  ];
+  state = {
+    predictResult: []
+  }
+
+  setPredictResult(predictResult){
+    predictResult = predictResult.map((value, index) => {
+      return {
+        key: index + 1,
+        rank: index + 1,
+        menu: value[0],
+        probability: (value[1] * 100).toFixed(2)
+      }
+    })
+    this.setState({predictResult: predictResult})
+  }
   
   columns = [
     {
@@ -42,8 +37,16 @@ class Result extends React.Component {
     },
   ];
 
+  componentDidMount(){
+    this.setPredictResult(this.props.predictResult)
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setPredictResult(nextProps.predictResult)
+  }
+
   render() {
-    return <Table dataSource={this.dataSource} columns={this.columns} pagination={false} />;
+    return <Table dataSource={this.state.predictResult} columns={this.columns} pagination={false} />;
   }
 }
 
